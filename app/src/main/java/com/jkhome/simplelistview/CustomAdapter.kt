@@ -22,20 +22,29 @@ class CustomAdapter(var arrayList: ArrayList<Data>):BaseAdapter() {
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val context = parent?.context
+        var rowView: View? = convertView
+        var mediaPlayer: MediaPlayer? = null
 
         val inflater : LayoutInflater
-        = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        if(rowView == null)
+            rowView = inflater.inflate(R.layout.item_list,parent,false)
 
         val item = arrayList[position]
-        val rowView:View = inflater.inflate(R.layout.item_list,parent,false)
-        val numberTextView = rowView.findViewById<TextView>(R.id.number_text_view)
-        numberTextView.text = item.number
 
-        val audioImage = rowView.findViewById<ImageView>(R.id.audio_image_view)
-        audioImage.setOnClickListener {
-            val mediaPlayer = MediaPlayer.create(context,context.resources.getIdentifier(item.audioFileName,"raw", context.packageName ))
-            mediaPlayer.start()
+        val numberTextView = rowView?.findViewById<TextView>(R.id.number_text_view)
+        numberTextView?.text = item.number
+
+        val audioImage = rowView?.findViewById<ImageView>(R.id.audio_image_view)
+        audioImage?.setOnClickListener {
+
+            if(mediaPlayer == null)
+                mediaPlayer = MediaPlayer.create(context,context.resources.getIdentifier(item.audioFileName,"raw", context.packageName ))
+
+            mediaPlayer?.start()
         }
-        return rowView
+
+        return rowView!!
     }
 }

@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val arrayList : ArrayList<Data> = ArrayList()
-        for (n in 0..5)
+        for (n in 0..20)
             arrayList.add(Data("$n","audio_$n"))
 
         val customAdapter:CustomAdapter = CustomAdapter(arrayList)
